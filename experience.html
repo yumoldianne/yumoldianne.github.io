@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+    HOW TO USE THIS TEMPLATE
+    ============================================================
+    1. Update your name in the sidebar logo and page title
+    2. Each .job block = one role. Copy/paste to add more.
+    3. Each .job has:
+         - .job-header    → company, role, dates, location
+         - .job-summary   → one-line description of the role
+         - .job-tags      → tech/skills used
+         - .job-bullets   → what you actually did (use strong
+                            for the impact number or key word)
+         - .job-highlight → optional callout for a standout result
+    4. Education, certifications, and awards are at the bottom.
+    5. Keep posts in a posts/ folder so ../index.html works.
+    ============================================================ -->
+
+  <title>Experience · Dianne Yumol</title>
+  <meta name="description" content="Professional work experience of Dianne Yumol — Data Scientist & Research Scientist">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:          #ffffff;
+      --bg-card:     #f7f7f7;
+      --bg-sidebar:  #fafafa;
+      --accent:      #2563eb;
+      --accent-dim:  rgba(37,99,235,0.08);
+      --text:        #0a0a0a;
+      --text-muted:  #6b7280;
+      --border:      #e5e7eb;
+      --border-dark: #d1d5db;
+      --sidebar-w:   240px;
+      --sans:        'DM Sans', system-ui, sans-serif;
+      --mono:        'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.65;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ════════════════════════════════
+       SIDEBAR
+    ════════════════════════════════ */
+    aside {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 2rem 1.25rem;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      transition: width 0.25s ease, padding 0.25s ease;
+    }
+
+    body.sidebar-collapsed aside  { width: 0; padding: 0; border-right: none; }
+    body.sidebar-collapsed main   { margin-left: 0; }
+    main { transition: margin-left 0.25s ease; }
+
+    .sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      min-width: 208px;
+    }
+
+    .site-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo-mark {
+      width: 30px; height: 30px;
+      background: var(--text);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--bg);
+    }
+
+    .logo-name { font-size: 14px; font-weight: 500; }
+
+    /* jump nav */
+    .jump-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.5;
+      padding: 0 2px;
+    }
+
+    .jump-nav { display: flex; flex-direction: column; gap: 2px; }
+
+    .jump-nav a {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      border-left: 2px solid transparent;
+      transition: color 0.12s, background 0.12s, border-color 0.12s;
+      line-height: 1.4;
+    }
+
+    .jump-nav a:hover { color: var(--text); background: var(--border); }
+    .jump-nav a.active { color: var(--accent); border-left-color: var(--accent); background: var(--accent-dim); }
+
+    .jump-nav .nav-year {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      opacity: 0.4;
+      margin-left: auto;
+      padding-left: 6px;
+    }
+
+    .sidebar-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 8px;
+      border-radius: 5px;
+      transition: color 0.12s, background 0.12s;
+      margin-top: auto;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .sidebar-back:hover { color: var(--accent); background: var(--accent-dim); }
+
+    /* ── TOGGLE BUTTON ── */
+    #sidebar-toggle {
+      position: fixed;
+      top: 1.1rem;
+      z-index: 100;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: left 0.25s ease, color 0.12s, background 0.12s;
+    }
+
+    #sidebar-toggle:hover { color: var(--accent); background: var(--accent-dim); border-color: var(--accent); }
+    body:not(.sidebar-collapsed) #sidebar-toggle { left: calc(var(--sidebar-w) + 0.75rem); }
+    body.sidebar-collapsed #sidebar-toggle { left: 1rem; }
+    #sidebar-toggle svg { width: 14px; height: 14px; }
+
+    /* mobile overlay */
+    .sidebar-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 9;
+    }
+
+    body.mobile-open .sidebar-overlay { display: block; }
+    body.mobile-open aside { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
+
+    /* ════════════════════════════════
+       MAIN LAYOUT
+    ════════════════════════════════ */
+    main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 0 0 6rem;
+    }
+
+    .page-header {
+      padding: 4.5rem clamp(1.5rem, 6vw, 5rem) 2.5rem;
+      border-bottom: 1px solid var(--border);
+      max-width: 800px;
+    }
+
+    .page-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-title span { color: var(--accent); }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      max-width: 480px;
+      line-height: 1.65;
+    }
+
+    /* download CV button */
+    .cv-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 1.5rem;
+      padding: 8px 16px;
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.12s, background 0.12s, color 0.12s;
+    }
+
+    .cv-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+    .cv-btn svg { width: 13px; height: 13px; }
+
+    /* ════════════════════════════════
+       CONTENT AREA
+    ════════════════════════════════ */
+    .content {
+      padding: 0 clamp(1.5rem, 6vw, 5rem);
+      max-width: 800px;
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .section-block {
+      padding: 3rem 0 0;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.5;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ════════════════════════════════
+       TIMELINE / JOB CARDS
+    ════════════════════════════════ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* vertical line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .job {
+      padding: 0 0 3rem 2rem;
+      position: relative;
+      scroll-margin-top: 1rem;
+    }
+
+    /* timeline dot */
+    .job::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 8px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--border-dark);
+      transition: border-color 0.2s;
+    }
+
+    .job:hover::before { border-color: var(--accent); }
+    .job.current::before { background: var(--accent); border-color: var(--accent); }
+
+    /* ── JOB HEADER ── */
+    .job-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.6rem;
+    }
+
+    .job-title-wrap {}
+
+    .job-role {
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .job-company {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.875rem;
+      color: var(--accent);
+      font-weight: 400;
+      text-decoration: none;
+    }
+
+    .job-company:hover { text-decoration: underline; }
+
+    .job-company svg { width: 11px; height: 11px; opacity: 0.7; }
+
+    .job-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+
+    .job-dates {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .job-location {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      opacity: 0.55;
+    }
+
+    .job-type {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 7px;
+      border: 1px solid var(--border-dark);
+      border-radius: 3px;
+      color: var(--text-muted);
+    }
+
+    /* current badge */
+    .badge-current {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 8px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-radius: 3px;
+    }
+
+    /* ── JOB SUMMARY ── */
+    .job-summary {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.65;
+      margin: 0.6rem 0 0.9rem;
+      max-width: 560px;
+    }
+
+    /* ── SKILL TAGS ── */
+    .job-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .job-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text-muted);
+    }
+
+    /* ── BULLETS ── */
+    .job-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+    }
+
+    .job-bullet {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    .job-bullet::before {
+      content: '—';
+      color: var(--border-dark);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .job-bullet strong {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* ── HIGHLIGHT CALLOUT ── */
+    .job-highlight {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--accent-dim);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--text);
+      margin-top: 0.75rem;
+    }
+
+    .job-highlight svg {
+      width: 14px; height: 14px;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ════════════════════════════════
+       EDUCATION
+    ════════════════════════════════ */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+
+    .edu-card {
+      background: var(--bg);
+      padding: 1.25rem 1.5rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.12s;
+    }
+
+    .edu-card:nth-child(even) { border-right: none; }
+    .edu-card:nth-last-child(-n+2) { border-bottom: none; }
+    .edu-card:hover { background: var(--bg-card); }
+
+    .edu-degree {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .edu-school {
+      font-size: 0.875rem;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+
+    .edu-meta {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    /* ════════════════════════════════
+       CERTIFICATIONS / AWARDS
+    ════════════════════════════════ */
+    .cert-list {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 3rem;
+    }
+
+    .cert-item {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cert-item:first-child { border-top: 1px solid var(--border); }
+
+    .cert-year {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      min-width: 40px;
+      flex-shrink: 0;
+    }
+
+    .cert-name {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .cert-issuer {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .cert-badge {
+      margin-left: auto;
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 8px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+
+    /* ════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════ */
+    @media (max-width: 768px) {
+      aside {
+        position: fixed;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+      }
+
+      body.mobile-open aside { transform: translateX(0); }
+      main { margin-left: 0 !important; }
+      #sidebar-toggle { left: 1rem !important; }
+
+      .page-header { padding: 3.5rem 1.25rem 2rem; }
+      .content { padding: 0 1.25rem; }
+      .job-header { flex-direction: column; gap: 0.4rem; }
+      .job-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 6px; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .edu-card { border-right: none !important; }
+    }
+
+    @media (max-width: 480px) {
+      .cert-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Toggle -->
+<button id="sidebar-toggle" aria-label="Toggle sidebar">
+  <svg viewBox="0 0 16 16" fill="currentColor">
+    <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h11A1.5 1.5 0 0 1 15 2.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11zm5-1v13h8a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5H6zM2.5 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5H5V2H2.5z"/>
+  </svg>
+</button>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ════════════════════════════════
+  SIDEBAR
+════════════════════════════════ -->
+<aside>
+  <div class="sidebar-inner">
+
+    <!-- ✏️ UPDATE: name + link -->
+    <a href="index.html" class="site-logo">
+      <div class="logo-mark">D</div>
+      <div class="logo-name">Dianne Yumol</div>
+    </a>
+
+    <div>
+      <div class="jump-label">Jump to</div>
+      <!-- auto-populated by JS -->
+      <nav class="jump-nav" id="jump-nav"></nav>
+    </div>
+
+    <a href="index.html" class="sidebar-back">← Back to portfolio</a>
+
+  </div>
+</aside>
+
+
+<!-- ════════════════════════════════
+  MAIN
+════════════════════════════════ -->
+<main>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <p class="page-eyebrow">Work history · CV</p>
+    <!-- ✏️ UPDATE: your name -->
+    <h1 class="page-title">Dianne <span>Yumol</span></h1>
+    <p class="page-subtitle">
+      Data Scientist & Research Scientist with 3+ years building ML pipelines,
+      causal inference frameworks, and data products.
+    </p>
+
+    <!-- ✏️ UPDATE: link to your actual CV/resume PDF -->
+    <a href="#" class="cv-btn">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+      Download CV
+    </a>
+  </div>
+
+  <div class="content">
+
+    <!-- ════════════════════════════════
+      WORK EXPERIENCE
+      ✏️ Copy a .job block to add a new role.
+      Add data-company and data-year for the sidebar nav.
+    ════════════════════════════════ -->
+    <div class="section-block">
+      <div class="section-label">Work experience</div>
+
+      <div class="timeline">
+
+        <!-- ══ JOB 1 — most recent first ══ -->
+        <div class="job current" id="job-1" data-company="Acme Labs" data-year="2023–Now">
+          <div class="job-header">
+            <div class="job-title-wrap">
+              <!-- ✏️ UPDATE: role title -->
+              <div class="job-role">Senior Data Scientist</div>
+              <!-- ✏️ UPDATE: company name + website -->
+              <a href="#" class="job-company" target="_blank">
+                Acme Labs
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+              </a>
+            </div>
+            <div class="job-meta">
+              <!-- ✏️ UPDATE: dates -->
+              <span class="badge-current">Current</span>
+              <span class="job-dates">Jun 2023 — Present</span>
+              <!-- ✏️ UPDATE: location -->
+              <span class="job-location">Manila, PH · Hybrid</span>
+            </div>
+          </div>
+
+          <!-- ✏️ UPDATE: one-sentence role summary -->
+          <p class="job-summary">
+            Leading experimentation and causal inference work across the company's core
+            recommendation and search products, serving 4M+ monthly active users.
+          </p>
+
+          <!-- ✏️ UPDATE: tech stack tags -->
+          <div class="job-tags">
+            <span class="job-tag">Python</span>
+            <span class="job-tag">Causal Inference</span>
+            <span class="job-tag">PySpark</span>
+            <span class="job-tag">dbt</span>
+            <span class="job-tag">Airflow</span>
+            <span class="job-tag">Redshift</span>
+          </div>
+
+          <!-- ✏️ UPDATE: bullet points — bold the impact metric or key result -->
+          <div class="job-bullets">
+            <div class="job-bullet">
+              Designed and shipped a <strong>cluster-based A/B testing framework</strong> that
+              reduced false positive rate from 18% to under 5% across 30+ concurrent experiments.
+            </div>
+            <div class="job-bullet">
+              Built a real-time feature store on dbt + Redshift powering <strong>12 production ML models</strong>,
+              cutting feature computation costs by 40%.
+            </div>
+            <div class="job-bullet">
+              Partnered with the product team to run a pricing experiment that yielded a
+              <strong>+8% lift in conversion</strong> on the subscription funnel.
+            </div>
+            <div class="job-bullet">
+              Mentored 2 junior data scientists and led weekly reading groups on causal ML papers.
+            </div>
+          </div>
+
+          <!-- ✏️ Optional: one standout highlight. Delete if not needed. -->
+          <div class="job-highlight">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+            Promoted from Data Scientist to <strong>Senior</strong> after 10 months — fastest promotion
+            in the data org's history.
+          </div>
+        </div><!-- /.job -->
+
+
+        <!-- ══ JOB 2 ══ -->
+        <div class="job" id="job-2" data-company="DataCo" data-year="2021–2023">
+          <div class="job-header">
+            <div class="job-title-wrap">
+              <div class="job-role">Data Scientist</div>
+              <a href="#" class="job-company" target="_blank">
+                DataCo Analytics
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+              </a>
+            </div>
+            <div class="job-meta">
+              <span class="job-dates">Feb 2021 — May 2023</span>
+              <span class="job-location">Quezon City, PH · On-site</span>
+            </div>
+          </div>
+
+          <p class="job-summary">
+            Built NLP pipelines and client-facing analytics dashboards for e-commerce and
+            fintech clients across Southeast Asia.
+          </p>
+
+          <div class="job-tags">
+            <span class="job-tag">Python</span>
+            <span class="job-tag">NLP</span>
+            <span class="job-tag">HuggingFace</span>
+            <span class="job-tag">R Shiny</span>
+            <span class="job-tag">BigQuery</span>
+            <span class="job-tag">Tableau</span>
+          </div>
+
+          <div class="job-bullets">
+            <div class="job-bullet">
+              Fine-tuned a multilingual BERT model for Filipino-English code-switched text,
+              achieving <strong>F1 of 0.87</strong> on a proprietary benchmark — 8 points above baseline.
+            </div>
+            <div class="job-bullet">
+              Delivered an interactive R Shiny dashboard for a fintech client tracking
+              <strong>loan default risk</strong> across 200K+ accounts in real time.
+            </div>
+            <div class="job-bullet">
+              Automated monthly reporting pipelines for 6 clients, saving an estimated
+              <strong>40 analyst-hours per month</strong>.
+            </div>
+          </div>
+        </div><!-- /.job -->
+
+
+        <!-- ══ JOB 3 — internship / early role ══ -->
+        <div class="job" id="job-3" data-company="Research Lab" data-year="2020–2021">
+          <div class="job-header">
+            <div class="job-title-wrap">
+              <div class="job-role">Research Assistant</div>
+              <a href="#" class="job-company" target="_blank">
+                UP Diliman — CMSC Lab
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+              </a>
+            </div>
+            <div class="job-meta">
+              <span class="job-dates">Jun 2020 — Jan 2021</span>
+              <span class="job-location">Quezon City, PH · Remote</span>
+              <span class="job-type">Part-time</span>
+            </div>
+          </div>
+
+          <p class="job-summary">
+            Contributed to a DOH-funded project modeling COVID-19 hospital capacity across
+            Philippine regions using Bayesian compartmental models.
+          </p>
+
+          <div class="job-tags">
+            <span class="job-tag">R</span>
+            <span class="job-tag">Stan</span>
+            <span class="job-tag">Bayesian Modeling</span>
+            <span class="job-tag">Public Health</span>
+            <span class="job-tag">ggplot2</span>
+          </div>
+
+          <div class="job-bullets">
+            <div class="job-bullet">
+              Built a <strong>Bayesian SEIR model</strong> in Stan calibrated to regional DOH data,
+              used by 3 LGUs during the Delta wave for ICU capacity planning.
+            </div>
+            <div class="job-bullet">
+              Co-authored a paper published in the <em>Philippine Journal of Science</em>
+              with <strong>40+ citations</strong>.
+            </div>
+          </div>
+        </div><!-- /.job -->
+
+        <!-- ══ ADD MORE JOBS HERE ══
+          <div class="job" id="job-4" data-company="Company Name" data-year="YYYY–YYYY">
+            ...
+          </div>
+        ══════════════════════════ -->
+
+      </div><!-- /.timeline -->
+    </div>
+
+
+    <!-- ════════════════════════════════
+      EDUCATION
+      ✏️ Copy an .edu-card to add a degree.
+    ════════════════════════════════ -->
+    <div class="section-block">
+      <div class="section-label">Education</div>
+      <div class="edu-grid">
+
+        <div class="edu-card">
+          <!-- ✏️ UPDATE -->
+          <div class="edu-degree">B.S. Computer Science</div>
+          <div class="edu-school">University of the Philippines Diliman</div>
+          <div class="edu-meta">2016 – 2020 · Cum Laude</div>
+        </div>
+
+        <div class="edu-card">
+          <!-- ✏️ UPDATE or delete -->
+          <div class="edu-degree">Online Specialization — ML</div>
+          <div class="edu-school">Coursera / DeepLearning.AI</div>
+          <div class="edu-meta">2021 · Andrew Ng</div>
+        </div>
+
+        <!-- add more .edu-card blocks here -->
+
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════════════
+      CERTIFICATIONS & AWARDS
+      ✏️ Copy a .cert-item to add more.
+    ════════════════════════════════ -->
+    <div class="section-block">
+      <div class="section-label">Certifications & awards</div>
+      <div class="cert-list">
+
+        <div class="cert-item">
+          <span class="cert-year">2024</span>
+          <div>
+            <div class="cert-name">AWS Certified Machine Learning – Specialty</div>
+            <div class="cert-issuer">Amazon Web Services</div>
+          </div>
+          <span class="cert-badge">Active</span>
+        </div>
+
+        <div class="cert-item">
+          <span class="cert-year">2023</span>
+          <div>
+            <div class="cert-name">Best Paper Award — EMNLP Workshop on SE Asian NLP</div>
+            <div class="cert-issuer">Empirical Methods in NLP</div>
+          </div>
+          <span class="cert-badge">Award</span>
+        </div>
+
+        <div class="cert-item">
+          <span class="cert-year">2022</span>
+          <div>
+            <div class="cert-name">Google Data Analytics Professional Certificate</div>
+            <div class="cert-issuer">Google / Coursera</div>
+          </div>
+          <span class="cert-badge">Completed</span>
+        </div>
+
+        <!-- add more .cert-item blocks here -->
+
+      </div>
+    </div>
+
+  </div><!-- /.content -->
+</main>
+
+
+<script>
+  /* ── Sidebar toggle ── */
+  const toggleBtn = document.getElementById('sidebar-toggle');
+  const overlay   = document.getElementById('sidebar-overlay');
+  const isMobile  = () => window.innerWidth <= 768;
+
+  toggleBtn.addEventListener('click', () => {
+    if (isMobile()) document.body.classList.toggle('mobile-open');
+    else            document.body.classList.toggle('sidebar-collapsed');
+  });
+
+  overlay.addEventListener('click', () => document.body.classList.remove('mobile-open'));
+  window.addEventListener('resize', () => {
+    if (!isMobile()) document.body.classList.remove('mobile-open');
+    else             document.body.classList.remove('sidebar-collapsed');
+  });
+
+  /* ── Auto-build jump nav from .job data attributes ── */
+  const nav  = document.getElementById('jump-nav');
+  const jobs = document.querySelectorAll('.job[data-company]');
+
+  jobs.forEach(job => {
+    const a = document.createElement('a');
+    a.href = '#' + job.id;
+    a.innerHTML = `${job.dataset.company}<span class="nav-year">${job.dataset.year}</span>`;
+    a.style.display = 'flex';
+    a.style.justifyContent = 'space-between';
+    nav.appendChild(a);
+  });
+
+  /* ── Active link on scroll ── */
+  const navLinks = nav.querySelectorAll('a');
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = nav.querySelector(`a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '0px 0px -55% 0px', threshold: 0 });
+
+  jobs.forEach(j => obs.observe(j));
+</script>
+
+</body>
+</html>
