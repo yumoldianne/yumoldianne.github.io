@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+    HOW TO USE THIS TEMPLATE
+    ============================================================
+    1. Copy this file and rename it (e.g. "my-project.html")
+    2. Update the <title> and <meta> tags below
+    3. Fill in the POST HEADER section (title, date, tags, cover image)
+    4. Write your content inside <article class="post-body">
+    5. Use the provided elements: headings, paragraphs, images,
+       callouts, code blocks, figures — examples are all below
+    6. Update the back link to point to your index.html
+    ============================================================ -->
+
+  <!-- ✏️ UPDATE: page title and description -->
+  <title>Post Title · Dianne Yumol</title>
+  <meta name="description" content="A short description of this post">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:          #ffffff;
+      --bg-card:     #f7f7f7;
+      --bg-sidebar:  #fafafa;
+      --accent:      #2563eb;
+      --accent-dim:  rgba(37,99,235,0.08);
+      --text:        #0a0a0a;
+      --text-muted:  #6b7280;
+      --border:      #e5e7eb;
+      --border-dark: #d1d5db;
+      --sidebar-w:   240px;
+      --sans:        'DM Sans', system-ui, sans-serif;
+      --mono:        'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.65;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    aside {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 2rem 1.25rem;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      transition: width 0.25s ease, padding 0.25s ease;
+    }
+
+    body.sidebar-collapsed aside { width: 0; padding: 0; border-right: none; }
+    body.sidebar-collapsed main { margin-left: 0; }
+    main { transition: margin-left 0.25s ease; }
+    aside { transition: width 0.25s ease, padding 0.25s ease; }
+
+    .sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      min-width: 208px;
+    }
+
+    .site-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .site-logo .logo-mark {
+      width: 30px; height: 30px;
+      background: var(--text);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--bg);
+    }
+
+    .site-logo .logo-name { font-size: 14px; font-weight: 500; }
+
+    /* ── TOC ── */
+    .toc-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.5;
+      padding: 0 2px;
+    }
+
+    .toc { display: flex; flex-direction: column; gap: 2px; }
+
+    .toc a {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      border-left: 2px solid transparent;
+      transition: color 0.12s, background 0.12s, border-color 0.12s;
+      line-height: 1.4;
+    }
+
+    .toc a.toc-h3 { padding-left: 18px; font-size: 12px; }
+    .toc a:hover { color: var(--text); background: var(--border); }
+    .toc a.active { color: var(--accent); border-left-color: var(--accent); background: var(--accent-dim); }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 8px;
+      border-radius: 5px;
+      transition: color 0.12s, background 0.12s;
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .back-link:hover { color: var(--accent); background: var(--accent-dim); }
+
+    /* ── TOGGLE BUTTON ── */
+    #sidebar-toggle {
+      position: fixed;
+      top: 1.1rem;
+      z-index: 100;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: left 0.25s ease, color 0.12s, background 0.12s;
+    }
+
+    #sidebar-toggle:hover { color: var(--accent); background: var(--accent-dim); border-color: var(--accent); }
+    body:not(.sidebar-collapsed) #sidebar-toggle { left: calc(var(--sidebar-w) + 0.75rem); }
+    body.sidebar-collapsed #sidebar-toggle { left: 1rem; }
+    #sidebar-toggle svg { width: 14px; height: 14px; }
+
+    /* ── MOBILE OVERLAY ── */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 9;
+    }
+
+    body.mobile-open .sidebar-overlay { display: block; }
+    body.mobile-open aside { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
+
+    /* ── MAIN ── */
+    main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 0 0 6rem;
+    }
+
+    /* ── POST HEADER ── */
+    .post-header {
+      padding: 4rem clamp(1.5rem, 6vw, 5rem) 0;
+      max-width: 780px;
+    }
+
+    .post-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.12s;
+    }
+
+    .post-back:hover { color: var(--accent); }
+
+    .post-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.6;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .post-title {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .post-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 580px;
+      margin-bottom: 1.5rem;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 1rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+
+    .post-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .post-meta-item svg { width: 12px; height: 12px; }
+    .post-meta-sep { color: var(--border-dark); }
+
+    .post-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .post-tag-pill {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 8px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-radius: 20px;
+    }
+
+    /* ── COVER IMAGE ── */
+    .cover-image {
+      width: 100%;
+      max-width: 780px;
+      margin: 0 clamp(1.5rem, 6vw, 5rem) 2.5rem;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 16/7;
+    }
+
+    .cover-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── ARTICLE BODY ── */
+    .post-body {
+      padding: 0 clamp(1.5rem, 6vw, 5rem);
+      max-width: 780px;
+    }
+
+    /* Prose elements */
+    .post-body p {
+      font-size: 0.975rem;
+      line-height: 1.85;
+      color: var(--text);
+      font-weight: 300;
+      margin-bottom: 1.4rem;
+    }
+
+    .post-body h2 {
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin: 2.5rem 0 0.75rem;
+      color: var(--text);
+      scroll-margin-top: 1rem;
+    }
+
+    .post-body h3 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin: 2rem 0 0.5rem;
+      color: var(--text);
+      scroll-margin-top: 1rem;
+    }
+
+    .post-body h2::before {
+      content: '## ';
+      font-family: var(--mono);
+      font-size: 0.7em;
+      color: var(--accent);
+      opacity: 0.5;
+    }
+
+    .post-body a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .post-body strong { font-weight: 500; }
+    .post-body em { font-style: italic; }
+
+    /* Lists */
+    .post-body ul, .post-body ol {
+      margin: 0 0 1.4rem 1.25rem;
+      font-size: 0.975rem;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .post-body li { margin-bottom: 0.35rem; }
+
+    /* Inline code */
+    .post-body code {
+      font-family: var(--mono);
+      font-size: 0.85em;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--accent);
+    }
+
+    /* Code block */
+    .post-body pre {
+      background: #0f1117;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      border: 1px solid #1e2030;
+    }
+
+    .post-body pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: #e2e8f0;
+      font-size: 0.825rem;
+      line-height: 1.7;
+    }
+
+    /* Callout */
+    .callout {
+      border-left: 2px solid var(--accent);
+      background: var(--accent-dim);
+      padding: 0.9rem 1.25rem;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .callout.warn {
+      border-left-color: #f59e0b;
+      background: rgba(245,158,11,0.07);
+    }
+
+    .callout.tip {
+      border-left-color: #10b981;
+      background: rgba(16,185,129,0.07);
+    }
+
+    /* Figures / images */
+    .post-body figure {
+      margin: 1.75rem 0 2rem;
+    }
+
+    .post-body figure img {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .post-body figcaption {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+      text-align: center;
+    }
+
+    /* Image grid (2-up) */
+    .img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.75rem 0 2rem;
+    }
+
+    .img-grid img {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      aspect-ratio: 4/3;
+      display: block;
+    }
+
+    /* Divider */
+    .post-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* Blockquote */
+    .post-body blockquote {
+      border-left: 2px solid var(--border-dark);
+      padding: 0.5rem 1.25rem;
+      margin: 1.5rem 0;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── POST FOOTER ── */
+    .post-footer {
+      margin-top: 4rem;
+      padding: 2rem clamp(1.5rem, 6vw, 5rem);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: gap;
+      gap: 1rem;
+      max-width: 780px;
+    }
+
+    .post-footer-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.12s;
+    }
+
+    .post-footer-back:hover { color: var(--accent); }
+
+    .post-footer-share {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      aside {
+        position: fixed;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+      }
+
+      main { margin-left: 0 !important; }
+      #sidebar-toggle { left: 1rem !important; }
+
+      .post-header { padding: 3.5rem 1.25rem 0; }
+      .cover-image { margin: 0 1.25rem 2rem; }
+      .post-body { padding: 0 1.25rem; }
+      .post-footer { padding: 2rem 1.25rem; }
+      .img-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Toggle button -->
+<button id="sidebar-toggle" aria-label="Toggle sidebar">
+  <svg viewBox="0 0 16 16" fill="currentColor">
+    <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h11A1.5 1.5 0 0 1 15 2.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11zm5-1v13h8a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5H6zM2.5 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5H5V2H2.5z"/>
+  </svg>
+</button>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ══════════════════════════════════════════
+  SIDEBAR — auto-generates TOC from headings
+══════════════════════════════════════════ -->
+<aside>
+  <div class="sidebar-inner">
+    <!-- ✏️ UPDATE: href to your portfolio homepage -->
+    <a href="index.html" class="site-logo">
+      <div class="logo-mark">D</div>
+      <div class="logo-name">Dianne Yumol</div>
+    </a>
+
+    <div>
+      <div class="toc-label">On this page</div>
+      <!-- TOC is auto-generated by JS from h2/h3 tags in the article -->
+      <nav class="toc" id="toc"></nav>
+    </div>
+
+    <!-- ✏️ UPDATE: href to your portfolio homepage -->
+    <a href="index.html" class="back-link">
+      ← Back to portfolio
+    </a>
+  </div>
+</aside>
+
+
+<!-- ══════════════════════════════════════════
+  MAIN CONTENT
+══════════════════════════════════════════ -->
+<main>
+
+  <!-- ── POST HEADER ── -->
+  <div class="post-header">
+
+    <!-- ✏️ UPDATE: href to your index page -->
+    <a href="index.html" class="post-back">← All posts</a>
+
+    <!-- ✏️ UPDATE: "Blog" or "Project" or "Research" -->
+    <div class="post-eyebrow">
+      <span>Blog</span> · Jan 2025
+    </div>
+
+    <!-- ✏️ UPDATE: your post title -->
+    <h1 class="post-title">Why your A/B test is probably wrong</h1>
+
+    <!-- ✏️ UPDATE: one-line subtitle (optional, delete if not needed) -->
+    <p class="post-subtitle">
+      A practical look at the assumptions we violate every day and what to do about it.
+    </p>
+
+    <div class="post-meta">
+      <div class="post-meta-item">
+        <!-- calendar icon -->
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>
+        <!-- ✏️ UPDATE: date -->
+        January 10, 2025
+      </div>
+      <span class="post-meta-sep">·</span>
+      <div class="post-meta-item">
+        <!-- clock icon -->
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/></svg>
+        <!-- ✏️ UPDATE: read time -->
+        8 min read
+      </div>
+      <span class="post-meta-sep">·</span>
+      <!-- ✏️ UPDATE: tags -->
+      <div class="post-tags">
+        <span class="post-tag-pill">Statistics</span>
+        <span class="post-tag-pill">Experimentation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✏️ UPDATE: cover image src, or delete this whole block if no image -->
+  <div class="cover-image">
+    <img
+      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80"
+      alt="Cover image — charts and data"
+    >
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+    ARTICLE BODY
+    Add your content below. Sections with id=""
+    will appear in the auto-generated TOC.
+  ══════════════════════════════════════════ -->
+  <article class="post-body">
+
+    <p>
+      A/B testing is the gold standard of causal inference in product teams — or so the story goes. 
+      Run an experiment, flip a coin, measure a metric, ship the winner. Simple. Except it's almost 
+      never that clean, and the assumptions hiding beneath the surface fail more often than most 
+      practitioners want to admit.
+    </p>
+
+    <div class="callout">
+      <strong>TL;DR:</strong> Most A/B tests violate at least one of SUTVA, randomization integrity, 
+      or multiple testing assumptions. This post walks through each, with practical fixes.
+    </div>
+
+    <!-- ── H2 headings become TOC entries ── -->
+    <h2 id="the-problem">The problem with "just run a test"</h2>
+
+    <p>
+      The canonical A/B test assumes two things: that units don't interfere with each other 
+      (SUTVA), and that the randomization actually produced comparable groups. In practice, 
+      both are routinely violated — and the damage is often invisible.
+    </p>
+
+    <p>
+      Consider a recommendation system test. You assign users to treatment or control at random. 
+      But if treatment users start sharing links that control users click, you've just introduced 
+      interference. Your control group is contaminated. Your effect estimate is biased. And your 
+      p-value means nothing.
+    </p>
+
+    <!-- ── Figure with caption ── -->
+    <figure>
+      <img
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80"
+        alt="A dashboard showing overlapping experiment metrics"
+      >
+      <figcaption>Fig 1. Overlapping experiments are the norm, not the exception, in most product stacks.</figcaption>
+    </figure>
+
+    <h2 id="sutva">SUTVA violations</h2>
+
+    <p>
+      The Stable Unit Treatment Value Assumption (SUTVA) has two parts: no interference between 
+      units, and no hidden versions of treatment. Violating either one collapses the neat 
+      potential outcomes framework that justifies the whole procedure.
+    </p>
+
+    <h3 id="interference">Network interference</h3>
+
+    <p>
+      Network interference is the most common violation in consumer apps. Social features, 
+      viral loops, shared inventory — anything that creates interdependence between users will 
+      bleed treatment into control. The standard fix is cluster-based randomization: assign 
+      entire clusters (friend groups, geographic regions, device families) rather than individuals.
+    </p>
+
+    <!-- ── Code block ── -->
+    <pre><code># Cluster-based randomization in Python
+import numpy as np
+import pandas as pd
+
+def cluster_randomize(df, cluster_col, treatment_share=0.5, seed=42):
+    rng = np.random.default_rng(seed)
+    clusters = df[cluster_col].unique()
+    n_treat = int(len(clusters) * treatment_share)
+    treated = rng.choice(clusters, size=n_treat, replace=False)
+    df['treatment'] = df[cluster_col].isin(treated).astype(int)
+    return df</code></pre>
+
+    <h3 id="hidden-versions">Hidden versions of treatment</h3>
+
+    <p>
+      The second part of SUTVA — no hidden versions — is violated whenever "treatment" isn't 
+      uniformly delivered. A/B frameworks that rely on client-side feature flags can serve 
+      different versions of the same variant depending on device type, network latency, or 
+      SDK version. The result: your "treatment" is actually several different treatments 
+      averaged together.
+    </p>
+
+    <h2 id="multiple-testing">The multiple testing trap</h2>
+
+    <p>
+      If you run 20 tests simultaneously and use α = 0.05, you expect one false positive by 
+      chance alone — even if every null is true. Most teams implicitly run dozens of experiments 
+      at once across their product, then congratulate themselves on "data-driven" decisions 
+      without any correction for familywise error rate.
+    </p>
+
+    <!-- ── 2-up image grid ── -->
+    <div class="img-grid">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=70" alt="Multiple metrics dashboard">
+      <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&q=70" alt="Statistical charts">
+    </div>
+
+    <div class="callout tip">
+      <strong>Practical fix:</strong> Use Benjamini–Hochberg correction for simultaneous 
+      hypotheses, or adopt a sequential testing framework (e.g. always-valid p-values) that 
+      lets you peek without inflating error rates.
+    </div>
+
+    <h2 id="what-to-do">What to actually do</h2>
+
+    <p>
+      There's no single silver bullet, but a few practices substantially reduce the risk of 
+      drawing wrong conclusions from your experiments:
+    </p>
+
+    <ul>
+      <li>Pre-register your primary metric and sample size calculation before running</li>
+      <li>Use cluster randomization when units interact socially or geographically</li>
+      <li>Apply multiple testing correction if you track more than one metric</li>
+      <li>Run A/A tests periodically to validate your randomization pipeline</li>
+      <li>Document every decision made mid-experiment — that's where p-hacking lives</li>
+    </ul>
+
+    <hr>
+
+    <p>
+      None of this makes A/B testing "wrong" as a tool — it remains the cleanest way to 
+      establish causality at scale. The point is to go in with eyes open about what the method 
+      can and can't do. The confidence interval is only as good as the assumptions underneath it.
+    </p>
+
+    <blockquote>
+      "All models are wrong, but some are useful." The same applies to experiments.
+    </blockquote>
+
+  </article>
+
+  <!-- ── POST FOOTER ── -->
+  <div class="post-footer">
+    <!-- ✏️ UPDATE: href to your index -->
+    <a href="index.html" class="post-footer-back">← Back to all posts</a>
+    <span class="post-footer-share">Dianne Yumol · 2025</span>
+  </div>
+
+</main>
+
+
+<script>
+  /* ── Sidebar toggle ── */
+  const toggleBtn = document.getElementById('sidebar-toggle');
+  const overlay   = document.getElementById('sidebar-overlay');
+  const isMobile  = () => window.innerWidth <= 768;
+
+  toggleBtn.addEventListener('click', () => {
+    if (isMobile()) {
+      document.body.classList.toggle('mobile-open');
+    } else {
+      document.body.classList.toggle('sidebar-collapsed');
+    }
+  });
+
+  overlay.addEventListener('click', () => document.body.classList.remove('mobile-open'));
+
+  window.addEventListener('resize', () => {
+    if (!isMobile()) document.body.classList.remove('mobile-open');
+    else document.body.classList.remove('sidebar-collapsed');
+  });
+
+  /* ── Auto-generate TOC from h2/h3 in article ── */
+  const toc = document.getElementById('toc');
+  const headings = document.querySelectorAll('.post-body h2[id], .post-body h3[id]');
+
+  headings.forEach(h => {
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent.replace(/^#+\s*/, '');
+    if (h.tagName === 'H3') a.classList.add('toc-h3');
+    toc.appendChild(a);
+  });
+
+  /* ── TOC active link on scroll ── */
+  const tocLinks = toc.querySelectorAll('a');
+
+  const tocObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const active = toc.querySelector(`a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '0px 0px -60% 0px', threshold: 0 });
+
+  headings.forEach(h => tocObserver.observe(h));
+</script>
+
+</body>
+</html>
