@@ -10,19 +10,84 @@
   <link rel="stylesheet" href="shared.css">
   <style>
     .post-list { display: flex; flex-direction: column; }
+
     .post-item {
-      display: flex; align-items: baseline; gap: 1.25rem;
-      padding: 1rem 0; border-bottom: 1px solid var(--border);
-      text-decoration: none; color: var(--text);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
     }
     .post-item:first-child { border-top: 1px solid var(--border); }
-    .post-item:hover .post-title { color: var(--accent); }
 
-    .post-date { font-family: var(--mono); font-size: 11px; color: var(--text-muted); min-width: 72px; flex-shrink: 0; }
-    .post-title { font-size: 0.9rem; font-weight: 400; transition: color 0.12s; }
-    .post-tag { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--text-muted); opacity: 0.5; white-space: nowrap; }
+    .post-trigger {
+      display: flex; align-items: baseline;
+      gap: 1.25rem; padding: 1rem 0;
+      cursor: pointer; user-select: none;
+    }
 
-    @media (max-width: 480px) { .post-tag { display: none; } }
+    .post-date {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--text-muted); min-width: 72px; flex-shrink: 0;
+    }
+
+    .post-title {
+      font-size: 0.95rem; font-weight: 400; color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--border-dark);
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.15s, color 0.15s;
+    }
+    .post-item:hover .post-title,
+    .post-item.open  .post-title {
+      color: var(--accent);
+      text-decoration-color: var(--accent);
+    }
+
+    .post-tag {
+      margin-left: auto; font-family: var(--mono); font-size: 10px;
+      color: var(--text-muted); opacity: 0.5; white-space: nowrap; flex-shrink: 0;
+    }
+
+    .post-chevron {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--text-muted); opacity: 0.4; flex-shrink: 0;
+      transition: transform 0.25s ease, opacity 0.15s;
+      margin-left: 4px;
+    }
+    .post-item.open .post-chevron { transform: rotate(90deg); opacity: 0.7; }
+
+    /* grid-rows trick for smooth height animation */
+    .post-expand {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.32s cubic-bezier(0.4,0,0.2,1);
+    }
+    .post-item.open .post-expand { grid-template-rows: 1fr; }
+
+    .post-expand-inner { overflow: hidden; }
+    .post-expand-inner-pad {
+      padding-bottom: 1.1rem;
+    }
+
+    .post-desc {
+      font-size: 0.875rem; color: var(--text-muted);
+      font-weight: 300; line-height: 1.7;
+      padding-left: calc(72px + 1.25rem);
+      max-width: 520px;
+    }
+
+    .post-read-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 0.65rem;
+      margin-left: calc(72px + 1.25rem);
+      font-size: 12px; font-weight: 500;
+      color: var(--accent); text-decoration: none;
+      transition: gap 0.15s;
+    }
+    .post-read-link:hover { gap: 9px; }
+
+    @media (max-width: 480px) {
+      .post-tag { display: none; }
+      .post-desc, .post-read-link { padding-left: 0; margin-left: 0; }
+    }
   </style>
 </head>
 <body>
@@ -42,7 +107,7 @@
       <a href="index.html"              ><span class="nav-num">01</span> Home</a>
       <a href="about.html"              ><span class="nav-num">02</span> About</a>
       <a href="works.html"              ><span class="nav-num">03</span> Works</a>
-      <a href="blog.html"    class="active"><span class="nav-num">04</span> Blog</a>
+      <a href="blog.html"   class="active"><span class="nav-num">04</span> Blog</a>
       <a href="contact.html"            ><span class="nav-num">05</span> Contact</a>
     </nav>
     <div>
@@ -58,25 +123,54 @@
 
 <main>
   <div class="page-wrap">
-    <div class="page-eyebrow"><span>04</span> · Blog</div>
+    <div class="page-eyebrow"><span>04</span> · Writing</div>
     <h1 class="page-title">The <em>Blog.</em></h1>
-    <p class="page-intro">Occasional posts on all things under the sun.</p>
+    <p class="page-intro">Click any title to peek inside — then follow the link if it calls to you.</p>
 
-    <!-- ✏️ UPDATE: replace href with links to your post files in the posts/ folder -->
+    <!-- ══════════════════════════════════════════
+      POST LIST
+      ✏️ HOW TO ADD A NEW POST:
+         1. Copy one entire .post-item block below
+         2. Update: date, title, post-tag, post-desc text
+         3. Update the href on .post-read-link to point to
+            your post file in the posts/ folder
+            e.g.  href="posts/my-new-post.html"
+    ══════════════════════════════════════════ -->
     <div class="post-list">
 
-      <a href="posts/ab-testing.html" class="post-item">
-        <span class="post-date">Jan 2026</span>
-        <span class="post-title">house/home</span>
-        <span class="post-tag">Personal Essay</span>
-      </a>
+      <div class="post-item">
+        <div class="post-trigger">
+          <span class="post-date">Jan 2026</span>
+          <span class="post-title">house/home</span>
+          <span class="post-tag">Personal Essay</span>
+          <span class="post-chevron">›</span>
+        </div>
+        <div class="post-expand">
+          <div class="post-expand-inner">
+            <div class="post-expand-inner-pad">
+              <p class="post-desc">A personal piece on what makes a house a home.</p>
+              <a href="posts/house-home.html" class="post-read-link">Read post →</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    </div>
+    </div><!-- /.post-list -->
 
     <footer>Made by Dianne Yumol · Built with HTML, CSS, JS</footer>
   </div>
 </main>
 
 <script src="shared.js"></script>
+<script>
+  /* ── Expand / collapse on title click ── */
+  document.querySelectorAll('.post-item').forEach(item => {
+    item.querySelector('.post-trigger').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.post-item.open').forEach(o => o.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
 </body>
 </html>
