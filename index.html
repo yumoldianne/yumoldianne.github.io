@@ -1,303 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dianne Yumol</title>
-  <meta name="description" content="Data Scientist & Research Scientist">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>dianne yumol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #ffffff; --bg-sidebar: #fafafa;
-      --accent: #2563eb; --accent-dim: rgba(37,99,235,0.08);
-      --text: #0a0a0a; --text-muted: #6b7280;
-      --border: #e5e7eb; --border-dark: #d1d5db;
-      --sidebar-w: 240px;
-      --sans: 'DM Sans', system-ui, sans-serif;
-      --mono: 'DM Mono', monospace;
+      color-scheme: light;
+      --bg: #ffffff;
+      --ink: #1a1a1a;
+      --soft: #6b6b6b;
+      --glow1: #f4ecf7;
+      --glow2: #fbf3e6;
+      --glow3: #eef4f0;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      background: var(--bg); color: var(--text);
-      font-family: var(--sans); font-size: 15px;
-      line-height: 1.65; display: flex; min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "EB Garamond", Garamond, "Times New Roman", serif;
+      font-size: 20px;
+      line-height: 1.45;
     }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+    a:focus-visible { outline: 1px dashed var(--ink); outline-offset: 4px; }
 
-    /* ── SIDEBAR ── */
-    aside {
-      position: fixed; top: 0; left: 0;
-      width: var(--sidebar-w); height: 100vh;
-      overflow-y: auto; overflow-x: hidden;
-      padding: 2rem 1.25rem;
-      background: var(--bg-sidebar);
-      border-right: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      z-index: 10;
-      transition: width 0.25s ease, padding 0.25s ease;
-    }
-    body.sidebar-collapsed aside  { width: 0; padding: 0; border-right: none; }
-    body.sidebar-collapsed main   { margin-left: 0; }
-    main { transition: margin-left 0.25s ease; }
+    .page { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
 
-    .sidebar-inner {
-      display: flex; flex-direction: column;
-      gap: 2rem; min-width: 208px;
+    /* top header row, like a book spread */
+    header.top {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--bg);
     }
+    header.top .page {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      padding-top: 28px; padding-bottom: 28px;
+      font-size: 16px;
+    }
+    header.top a:last-child { text-align: right; }
 
-    .site-logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none; color: var(--text);
+    /* two-column spread */
+    .spread {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 64px;
+      padding: 72px 0;
     }
-    .logo-mark {
-      width: 30px; height: 30px; background: var(--text);
-      border-radius: 6px; display: flex; align-items: center;
-      justify-content: center; font-family: var(--mono);
-      font-size: 13px; font-weight: 500; color: var(--bg);
-    }
-    .logo-name { font-size: 14px; font-weight: 500; }
+    .spread + .spread { border-top: 1px dashed color-mix(in srgb, var(--ink) 35%, transparent); }
+    .left h2, .left h1 { font-weight: 400; font-size: 22px; margin-bottom: 28px; }
+    .left p { max-width: 460px; margin-bottom: 22px; }
 
-    nav { display: flex; flex-direction: column; gap: 1px; }
-    nav a {
-      display: flex; align-items: center; gap: 10px;
-      padding: 7px 10px; text-decoration: none;
-      font-size: 13px; font-weight: 400;
-      color: var(--text-muted); border-radius: 6px;
-      transition: color 0.12s, background 0.12s;
+    /* hero */
+    .hero { min-height: calc(100vh - 82px); align-items: center; }
+    .hero h1 { font-size: clamp(44px, 6vw, 64px); line-height: 1.05; margin-bottom: 18px; }
+    .roles { font-size: 26px; min-height: 1.4em; margin-bottom: 32px; }
+    .roles em { font-style: italic; }
+    .caret {
+      display: inline-block; width: 1px; height: 0.9em;
+      background: var(--ink); margin-left: 2px; vertical-align: -0.08em;
+      animation: blink 1s steps(1) infinite;
     }
-    nav a .nav-num {
-      font-family: var(--mono); font-size: 10px;
-      color: var(--text-muted); opacity: 0.5; min-width: 18px;
-    }
-    nav a:hover { color: var(--text); background: var(--border); }
-    nav a.active {
-      color: var(--accent); background: var(--accent-dim); font-weight: 500;
-    }
-    nav a.active .nav-num { color: var(--accent); opacity: 0.6; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .contact { display: flex; gap: 28px; font-size: 18px; }
 
-    .sidebar-section-label {
-      font-family: var(--mono); font-size: 9px;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-muted); opacity: 0.5;
-      padding: 0 10px; margin-top: 0.25rem;
+    .art {
+      position: relative;
+      color: var(--ink);
     }
-    .sidebar-links { display: flex; flex-direction: column; gap: 2px; margin-top: 0.25rem; }
-    .sidebar-links a {
-      font-size: 13px; color: var(--text-muted); text-decoration: none;
-      padding: 6px 10px; border-radius: 6px;
-      display: flex; align-items: center; gap: 8px;
-      transition: color 0.12s, background 0.12s;
+    .art::before {
+      content: ""; position: absolute; inset: 8% 4%;
+      background:
+        radial-gradient(closest-side at 35% 55%, var(--glow1), transparent),
+        radial-gradient(closest-side at 65% 45%, var(--glow2), transparent),
+        radial-gradient(closest-side at 50% 70%, var(--glow3), transparent);
+      filter: blur(20px);
+      z-index: -1;
     }
-    .sidebar-links a:hover { color: var(--accent); background: var(--accent-dim); }
-    .sidebar-links svg { width: 13px; height: 13px; flex-shrink: 0; }
+    .art svg { width: 100%; height: auto; display: block; }
 
-    /* ── TOGGLE ── */
-    #sidebar-toggle {
-      position: fixed; top: 1.1rem; z-index: 100;
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 6px; width: 30px; height: 30px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: var(--text-muted);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-      transition: left 0.25s ease, color 0.12s, background 0.12s;
+    /* legend */
+    .legend {
+      display: grid; grid-template-columns: repeat(2, auto); justify-content: start;
+      column-gap: 48px; row-gap: 10px; font-size: 17px; margin-bottom: 40px;
     }
-    #sidebar-toggle:hover { color: var(--accent); background: var(--accent-dim); border-color: var(--accent); }
-    body:not(.sidebar-collapsed) #sidebar-toggle { left: calc(var(--sidebar-w) + 0.75rem); }
-    body.sidebar-collapsed #sidebar-toggle { left: 1rem; }
-    #sidebar-toggle svg { width: 14px; height: 14px; }
+    .legend span { display: flex; align-items: center; gap: 14px; }
+    .legend svg { width: 40px; height: 14px; color: var(--ink); }
 
-    .sidebar-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.3); z-index: 9;
-    }
-    body.mobile-open .sidebar-overlay { display: block; }
-    body.mobile-open aside { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
+    /* entries */
+    .entry { display: grid; grid-template-columns: 140px 1fr; gap: 24px; padding: 14px 0; }
+    .entry .when { color: var(--soft); font-size: 17px; padding-top: 2px; }
+    .entry h3 { font-weight: 500; font-size: 21px; }
+    .entry h3 i { font-weight: 400; }
+    .entry p { color: var(--soft); }
 
-    /* ── MAIN / HERO ── */
-    main {
-      margin-left: var(--sidebar-w);
-      flex: 1; display: flex; align-items: stretch;
-    }
+    footer .page { padding-top: 40px; padding-bottom: 56px; font-size: 16px; display: flex; justify-content: space-between; }
 
-    .hero {
-      flex: 1;
-      display: flex; flex-direction: column;
-      justify-content: space-between;
-      padding: 6rem clamp(2rem, 6vw, 5rem) 3rem;
-      min-height: 100vh;
+    @media (max-width: 820px) {
+      .page { padding: 0 24px; }
+      header.top .page { grid-template-columns: repeat(2, 1fr); row-gap: 6px; }
+      header.top a:nth-child(even) { text-align: right; }
+      .spread { grid-template-columns: 1fr; gap: 32px; padding: 56px 0; }
+      .hero { min-height: auto; padding-top: 32px; }
+      .entry { grid-template-columns: 1fr; gap: 2px; }
+      .legend { grid-template-columns: 1fr; }
     }
-
-    .hero-label {
-      font-family: var(--mono); font-size: 10px;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-muted); margin-bottom: 1.75rem;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .hero-label::after {
-      content: ''; flex: 1; max-width: 48px;
-      height: 1px; background: var(--border-dark);
-    }
-
-    .hero h1 {
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      font-weight: 300; line-height: 1.05;
-      letter-spacing: -0.03em;
-    }
-    .hero h1 em { font-style: normal; font-weight: 500; color: var(--accent); }
-
-    .hero-tagline {
-      font-size: 1.05rem; color: var(--text-muted);
-      margin-top: 1.5rem; font-weight: 300; line-height: 1.6;
-    }
-
-    .tw-cursor {
-      display: inline-block; color: var(--accent);
-      animation: blink 0.75s step-end infinite; margin-left: 1px;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-    .hero-stats {
-      display: flex; gap: 2.5rem;
-      padding-top: 2rem; border-top: 1px solid var(--border);
-    }
-    .stat-num {
-      font-size: 1.75rem; font-weight: 500;
-      letter-spacing: -0.03em; line-height: 1;
-    }
-    .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
-
-    footer {
-      font-family: var(--mono); font-size: 11px;
-      color: var(--text-muted); opacity: 0.4;
-      padding: 2rem clamp(2rem, 6vw, 5rem);
-      border-top: 1px solid var(--border);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) { :root { --sidebar-w: 200px; } }
-    @media (max-width: 768px) {
-      :root { --sidebar-w: 240px; }
-      aside { position: fixed; transform: translateX(-100%); transition: transform 0.25s ease; }
-      main { margin-left: 0 !important; }
-      #sidebar-toggle { left: 1rem !important; }
-      .hero { padding: 5rem 1.5rem 2.5rem; min-height: 100vh; }
-      .hero-stats { gap: 1.5rem; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .caret { animation: none; }
     }
   </style>
 </head>
 <body>
 
-<button id="sidebar-toggle" aria-label="Toggle sidebar">
-  <svg viewBox="0 0 16 16" fill="currentColor">
-    <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h11A1.5 1.5 0 0 1 15 2.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11zm5-1v13h8a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5H6zM2.5 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5H5V2H2.5z"/>
-  </svg>
-</button>
-<div class="sidebar-overlay" id="sidebar-overlay"></div>
-
-<aside>
-  <div class="sidebar-inner">
-    <a href="index.html" class="site-logo">
-      <div class="logo-mark">D</div>
-      <div class="logo-name">Dianne Yumol</div>
-    </a>
-
-    <nav>
-      <!-- active class = current page -->
-      <a href="index.html"   class="active"><span class="nav-num">01</span> Home</a>
-      <a href="about.html"          ><span class="nav-num">02</span> About</a>
-      <a href="works.html"          ><span class="nav-num">03</span> Works</a>
-      <a href="blog.html"           ><span class="nav-num">04</span> Blog</a>
-      <a href="contact.html"        ><span class="nav-num">05</span> Contact</a>
-    </nav>
-
-    <div>
-      <div class="sidebar-section-label">Links</div>
-      <div class="sidebar-links">
-        <a href="https://github.com/yumoldianne" target="_blank">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-        <a href="https://linkedin.com/in/yumoldianne" target="_blank">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></svg>
-          LinkedIn
-        </a>
-        <a href="mailto:diannecyumol@gmail.com">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/></svg>
-          Email
-        </a>
-      </div>
+  <header class="top">
+    <div class="page">
+      <a href="#about">home</a>
+      <a href="about-me.html">about me</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
     </div>
-  </div>
-</aside>
+  </header>
 
-<main>
-  <div style="flex:1; display:flex; flex-direction:column;">
-    <section class="hero">
-      <div>
-        <div class="hero-label">Portfolio <span>·</span> Personal Website</div>
-        <!-- ✏️ UPDATE: your name -->
-        <h1>Hi, I'm Dianne <em>Yumol.</em></h1>
-        <p class="hero-tagline">
-          <span id="typewriter"></span><span class="tw-cursor">|</span>
+  <main class="page">
+
+    <!-- ABOUT -->
+    <section class="spread hero" id="about">
+      <div class="left">
+        <h1><a href="about-me.html">dianne yumol</a></h1>
+        <p class="roles" aria-label="data scientist, business analyst, tiramisu lover, hojicha drinker">
+          <span aria-hidden="true"><em id="typed"></em><span class="caret"></span></span>
         </p>
+        <p>i'm dianne, a business analyst and data scientist. i work in consulting and have some experience with tech. </p>
+        <div class="contact">
+          <a href="mailto:you@diannecyumol.com">email</a>
+          <a href="https://github.com/yumoldianne">github</a>
+          <a href="https://linkedin.com/in/yumoldianne">linkedin</a>
+        </div>
       </div>
 
-      <!-- ✏️ UPDATE: your stats -->
-      <div class="hero-stats">
-        <div>
-          <div class="stat-num">2+</div>
-          <div class="stat-label">years experience</div>
+      <!-- hand-drawn style doodle: clouds, hills, a winding dashed path, a bird -->
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 600 460" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- cloud left -->
+          <path d="M60 170c-6-22 14-38 32-30 4-26 40-34 54-14 14-14 40-6 40 16 18 0 26 18 16 30"/>
+          <path d="M40 186c40-4 120 2 170-6"/>
+          <!-- cloud right -->
+          <path d="M390 110c-4-18 14-30 28-22 6-22 36-24 46-6 12-10 34-2 32 16 16 2 20 16 12 24"/>
+          <path d="M372 126c50-2 110 2 150-4"/>
+          <!-- bird -->
+          <path d="M300 70c8-8 16-8 22 0c6-8 14-8 22 0"/>
+          <!-- hills -->
+          <path d="M20 300c60-40 120-46 180-20s110 30 170-6 130-30 210 10"/>
+          <path d="M60 340c80-26 160-20 230 4s150 18 260-10"/>
+          <!-- little house -->
+          <path d="M150 300v-46l30-26 30 26v46"/>
+          <path d="M172 300v-20c0-10 16-10 16 0v20"/>
+          <path d="M196 236v-16h8v22"/>
+          <path d="M200 212c-6-8 4-12-2-20" stroke-width="1.6"/>
+          <!-- tree -->
+          <path d="M460 292v-30"/>
+          <path d="M440 266c-14-6-8-26 6-24 0-16 24-18 28-4 14-4 22 14 12 22 8 10-4 22-16 16-8 8-24 6-30-10z"/>
+          <!-- winding dashed path -->
+          <path d="M300 450c-40-30 30-50 0-80s-80-30-60-60 60-20 90-40" stroke-dasharray="10 12"/>
+          <!-- grass tufts -->
+          <path d="M100 380l4-12 4 12M106 380l6-14" stroke-width="1.6"/>
+          <path d="M420 400l4-12 4 12M426 400l6-14" stroke-width="1.6"/>
+          <path d="M520 360l4-10 4 10" stroke-width="1.6"/>
+          <!-- arch entrance -->
+          <path d="M360 396v-26c0-18 28-18 28 0v26"/>
+          <path d="M374 392c-6-4-6-14 0-16 6 2 4 10-1 10" stroke-width="1.6"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="spread" id="experience">
+      <div class="left">
+        <h2>experience</h2>
+        <p>the places i’ve worked and the people i’ve learned from along the way.</p>
+      </div>
+      <div>
+        <div class="entry">
+          <div class="when">2026 – now</div>
+          <div>
+            <h3>analyst <i>at kearney</i></h3>
+            <p>first foray into consulting.</p>
+          </div>
         </div>
-        <div>
-          <div class="stat-num">12</div>
-          <div class="stat-label">projects shipped</div>
+        <div class="entry">
+          <div class="when">2026</div>
+          <div>
+            <h3>analytics engineer <i>at asian development bank</i></h3>
+            <p>master data management and data engineering at a multilateral development bank.</p>
+          </div>
         </div>
-        <div>
-          <div class="stat-num">100+</div>
-          <div class="stat-label">coffees consumed</div>
+        <div class="entry">
+          <div class="when">2025 - 2026</div>
+          <div>
+            <h3>data science analyst <i>at kenvue</i></h3>
+            <p>part of the data science team, helping out with data products.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <footer>Made by Dianne Yumol · Built with HTML, CSS, JS</footer>
-  </div>
-</main>
+    <!-- PROJECTS -->
+    <section class="spread" id="projects">
+      <div class="left">
+        <h2>projects</h2>
+        <p>things i’ve built or tinkered with. click any one to wander in.</p>
+      </div>
+      <div>
+        <div class="legend" aria-hidden="true">
+          <span>
+            <svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 7h36" stroke-dasharray="8 7"/></svg>
+            personal
+          </span>
+          <span>
+            <svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12c8-12 28-12 36 0"/></svg>
+            collaborative
+          </span>
+        </div>
 
-<script>
-  /* ── Sidebar toggle ── */
-  const btn = document.getElementById('sidebar-toggle');
-  const overlay = document.getElementById('sidebar-overlay');
-  const isMobile = () => window.innerWidth <= 768;
-  btn.addEventListener('click', () => {
-    isMobile() ? document.body.classList.toggle('mobile-open')
-               : document.body.classList.toggle('sidebar-collapsed');
-  });
-  overlay.addEventListener('click', () => document.body.classList.remove('mobile-open'));
-  window.addEventListener('resize', () => {
-    if (!isMobile()) document.body.classList.remove('mobile-open');
-    else document.body.classList.remove('sidebar-collapsed');
-  });
+        <div class="entry">
+          <div class="when">personal</div>
+          <div>
+            <h3><a href="trustworthy-ai.html">trustworthy urban AI</a></h3>
+            <p>can we estimate how complete building and health-facility data are in each neighborhood without an authoritative reference, and is missingness linked to wealth or informality?</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="when">personal</div>
+          <div>
+            <h3><a href="gen-ai-dev-econ.html">generative AI and labor market exposure in developing economies</a></h3>
+            <p>how does exposure to generative AI vary across countries at different income levels, given their occupational structures?</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="when">personal</div>
+          <div>
+            <h3><a href="sov-debt.html">an early warning system for sovereign debt distress</a></h3>
+            <p>how well can publicly available macro-fiscal indicators predict the onset of sovereign debt distress one to two years ahead?</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  /* ── Typewriter ── */
-  /* ✏️ UPDATE: edit phrases here */
-  const twStrings = ["Data Scientist.", "Research Scientist."];
-  const twEl = document.getElementById('typewriter');
-  let idx = 0, ch = 0, del = false;
-  function type() {
-    const cur = twStrings[idx];
-    if (!del) {
-      twEl.textContent = cur.slice(0, ++ch);
-      if (ch === cur.length) { setTimeout(() => { del = true; type(); }, 1800); return; }
-      setTimeout(type, 60);
-    } else {
-      twEl.textContent = cur.slice(0, --ch);
-      if (ch === 0) { del = false; idx = (idx + 1) % twStrings.length; setTimeout(type, 400); return; }
-      setTimeout(type, 35);
+  </main>
+
+  <footer>
+    <div class="page">
+      <span>dianne yumol, <span id="year"></span></span>
+      <span>thanks for wandering by</span>
+    </div>
+  </footer>
+
+  <script>
+    const roles = ["data scientist", "business analyst", "tiramisu lover", "hojicha drinker"];
+
+    const el = document.getElementById("typed");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let r = 0, i = 0, deleting = false;
+
+    function tick() {
+      const word = roles[r];
+      i += deleting ? -1 : 1;
+      el.textContent = word.slice(0, i);
+      if (!deleting && i === word.length) { deleting = true; return setTimeout(tick, 1600); }
+      if (deleting && i === 0) { deleting = false; r = (r + 1) % roles.length; return setTimeout(tick, 400); }
+      setTimeout(tick, deleting ? 45 : 90);
     }
-  }
-  type();
-</script>
+
+    if (reduce) el.textContent = roles[0]; else tick();
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

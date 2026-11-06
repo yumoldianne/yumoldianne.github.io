@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>about me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #ffffff;
+      --ink: #1a1a1a;
+      --soft: #6b6b6b;
+      --line: color-mix(in srgb, #1a1a1a 35%, transparent);
+      --glow1: #f4ecf7;
+      --glow2: #fbf3e6;
+      --glow3: #eef4f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "EB Garamond", Garamond, "Times New Roman", serif;
+      font-size: 21px;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+    a:focus-visible { outline: 1px dashed var(--ink); outline-offset: 4px; }
+
+    .page { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+    header.top { position: sticky; top: 0; z-index: 10; background: var(--bg); }
+    header.top .page {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      padding-top: 28px; padding-bottom: 28px; font-size: 16px;
+    }
+    header.top a:last-child { text-align: right; }
+
+    .intro {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      padding: 56px 0 72px;
+      align-items: stretch;
+    }
+    .nameplate { display: flex; flex-direction: column; justify-content: space-between; }
+    .nameplate h1 {
+      font-weight: 400;
+      font-size: clamp(48px, 7vw, 84px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .title-stack {
+      margin-top: 40px;
+      font-size: clamp(28px, 3.6vw, 40px);
+      line-height: 1.1;
+      font-style: italic;
+    }
+    .title-stack span { display: block; }
+    .number {
+      margin-top: 40px;
+      font-size: 16px; color: var(--soft);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .number svg { width: 64px; height: 14px; }
+
+    .portrait { position: relative; }
+    .portrait::before {
+      content: ""; position: absolute; inset: -6%;
+      background:
+        radial-gradient(closest-side at 30% 60%, var(--glow1), transparent),
+        radial-gradient(closest-side at 70% 40%, var(--glow2), transparent),
+        radial-gradient(closest-side at 50% 80%, var(--glow3), transparent);
+      filter: blur(24px); z-index: -1;
+    }
+    .portrait img, .portrait .placeholder {
+      width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
+      border-radius: 6px;
+    }
+    .placeholder {
+      border: 1.5px dashed var(--line);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--soft); font-size: 17px;
+    }
+
+    /* hand-drawn divider */
+    .divider { display: block; width: 100%; height: 24px; color: var(--ink); margin-bottom: 64px; }
+
+    /* ---------- the story ---------- */
+    .story { max-width: 660px; margin: 0 auto; padding-bottom: 40px; }
+    .story p { margin-bottom: 26px; }
+    .story p:first-of-type::first-letter {
+      float: left; font-size: 3.6em; line-height: 0.85;
+      padding: 6px 10px 0 0;
+    }
+
+    blockquote {
+      position: relative;
+      margin: 56px -40px;
+      padding: 0 40px;
+      font-size: clamp(26px, 3vw, 32px);
+      line-height: 1.3;
+      font-style: italic;
+    }
+    blockquote svg {
+      display: block; width: 44px; height: 34px; margin-bottom: 14px; color: var(--ink);
+    }
+
+    figure.wide { margin: 56px -120px; }
+    figure.wide img, figure.wide .placeholder { width: 100%; aspect-ratio: 16 / 9; border-radius: 6px; display: block; object-fit: cover; }
+    figcaption { font-size: 16px; color: var(--soft); margin-top: 10px; text-align: center; }
+
+    .signoff { text-align: center; padding: 24px 0 72px; }
+    .signoff svg { width: 120px; height: 40px; color: var(--ink); }
+    .signoff a { display: block; margin-top: 18px; font-size: 18px; }
+
+    footer .page {
+      padding-top: 32px; padding-bottom: 48px; font-size: 16px;
+      display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      border-top: 1px dashed var(--line);
+    }
+    footer nav { display: flex; gap: 24px; }
+
+    @media (max-width: 1000px) {
+      figure.wide { margin: 48px 0; }
+      blockquote { margin: 48px 0; padding: 0; }
+    }
+    @media (max-width: 820px) {
+      .page { padding: 0 24px; }
+      header.top .page { grid-template-columns: repeat(2, 1fr); row-gap: 6px; }
+      header.top a:nth-child(even) { text-align: right; }
+      .intro { grid-template-columns: 1fr; gap: 40px; padding-top: 32px; }
+      .divider { margin-bottom: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top">
+    <div class="page">
+      <a href="index.html">home</a>
+      <a href="about-me.html">about me</a>
+      <a href="index.html#experience">experience</a>
+      <a href="index.html#projects">projects</a>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- 1. name, stacked title, small detail, portrait -->
+    <section class="intro">
+      <div class="nameplate">
+        <div>
+          <h1>hi, i'm dianne!</h1>
+          <p class="title-stack">
+            <span>occasional</span>
+            <span>wanderer</span>
+          </p>
+        </div>
+        <p class="number">
+          <svg viewBox="0 0 64 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 7h60" stroke-dasharray="8 7"/></svg>
+          based in the philippines
+        </p>
+      </div>
+
+      <div class="portrait">
+        <img src="images/me.jpg" alt="little old me">
+      </div>
+    </section>
+
+    <!-- hand-drawn wavy divider -->
+    <svg class="divider" viewBox="0 0 1100 24" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+      <path d="M2 12c40-10 80 10 120 0s80-10 120 0 80 10 120 0 80-10 120 0 80 10 120 0 80-10 120 0 80 10 120 0 80-10 120 0 80 10 116 0"/>
+    </svg>
+
+    <article class="story">
+      <p>I'm a consultant and data scientist. </p>
+
+      <p>my professional philosophy is driven by curiosity. i've always been somebody who loves discovering new things (be it hobbies or places), tinkering with personal projects, and having something to do with their hands. most of the time, i give myself new problems just because i accidentally wandered into something and couldn't stop thinking about it.</p>
+
+      <p>i do love solving problems, whether that be through technical or creative means, and that's what drew me into consulting and data science. two very different fields that are essentially tackling the same question at their core: how can we solve this problem? </p>
+      
+      <p>and as someone who gets bored easily, there has never been a dull day in this line of work. there's always something new to learn and once you get the hang of it, something new comes at you.</p>
+
+      <blockquote>
+        <svg viewBox="0 0 44 34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 4c-10 4-15 12-15 20 0 4 2 7 6 7s6-3 6-6-2-6-6-6"/>
+          <path d="M40 4c-10 4-15 12-15 20 0 4 2 7 6 7s6-3 6-6-2-6-6-6"/>
+        </svg>
+        on tiktok, i heard of the term, "professional novice". someone coined this term as a catch-all phrase for people who love trying new things.
+      </blockquote>
+
+      <p>i hope i never outgrow the excitement of being a beginner. i hope i'm always cool enough to keep learning something new. </p>
+
+      <!-- <figure class="wide">
+        <div class="placeholder">a photo of you at work, or something you made</div>
+        <figcaption>a short caption about the photo</figcaption>
+      </figure> -->
+
+      <p>outside of work, i am an active city dweller. i climb casually. i love musicals and books. my fuel of choice? you can't go wrong with coffee or hojicha. i don't think i'm built for matcha. aside from coffee and hojicha, tiramisu is one of my guilty pleasures and i hope to make it my branding one day.</p> 
+      
+      <p>i love exploring cities and finding little signs of affection from the people who inhabit them. you can find these in the coffee shops, restaurants, movie theaters, and even along the sidewalks. there's something about seeing how people make a place their own that i find endlessly fascinating.</p>
+      
+      <blockquote>
+        <svg viewBox="0 0 44 34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 4c-10 4-15 12-15 20 0 4 2 7 6 7s6-3 6-6-2-6-6-6"/>
+          <path d="M40 4c-10 4-15 12-15 20 0 4 2 7 6 7s6-3 6-6-2-6-6-6"/>
+        </svg>
+        life is so big and there is so much to see and adore.
+      </blockquote>
+
+    </article>
+
+    <!-- hand-drawn signoff -->
+    <div class="signoff">
+      <svg viewBox="0 0 120 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 30c20-14 40-14 56 0" stroke-dasharray="7 8"/>
+        <path d="M68 36v-18c0-12 20-12 20 0v18"/>
+        <path d="M78 32c-5-3-5-10 0-12 5 2 3 8-1 8"/>
+        <path d="M100 22c5-5 9-5 12 0c3-5 7-5 12 0" stroke-width="1.6"/>
+      </svg>
+      <a href="index.html">back <em>home</em> →</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="page">
+      <span>dianne yumol, 2026</span>
+      <nav>
+        <a href="mailto:you@diannecyumol.com">email</a>
+        <a href="https://github.com/yumoldianne">github</a>
+        <a href="https://linkedin.com/in/yumoldianne">linkedin</a>
+      </nav>
+    </div>
+  </footer>
+
+</body>
+</html>
